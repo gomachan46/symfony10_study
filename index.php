@@ -61,4 +61,26 @@ $app->post('/', function (Silex\Application $app, Request $request) {
      return new Response(json_encode($toy), Response::HTTP_CREATED);
  });
 
+function deleteToy($toyId)
+{
+    return true;
+}
+
+$app->delete('/{toyId}', function (Silex\Application $app, Request $request, $toyId) {
+
+     if (deleteToy($toyId)) {
+         // The delete went ok and we can now return a no content value
+         // HTTP_NO_CONTENT = 204
+         $responseMessage = '';
+         $responseCode = Response::HTTP_NO_CONTENT;
+     } else {
+         // Something went wrong
+         // HTTP_INTERNAL_SERVER_ERROR = 500
+         $responseMessage = 'reason for error';
+         $responseCode = Response::HTTP_INTERNAL_SERVER_ERROR;
+     }
+
+     return new Response($responseMessage, $responseCode);
+ });
+
 $app->run();
